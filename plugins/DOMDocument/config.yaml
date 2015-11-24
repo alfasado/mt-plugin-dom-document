@@ -4,7 +4,7 @@ name: DOMDocument
 author_name: Alfasado Inc.
 author_link: http://alfasado.net/
 version: 0.1
-description: MTML DOM Document.
+description: This plugin provides some DOM methods in MTML.
 tags:
     block:
         SetRawTemplate: $domdocument::DOMDocument::Tags::_hdlr_set_raw_template
