@@ -196,36 +196,35 @@ sub _hdlr_get_elements_by {
             $tmpl = $ctx->{ __stash }{ vars }{ lc( $template ) };
         }
     }
-    my $elements;
+    my @elements;
     my $tag = lc( $ctx->stash( 'tag' ) );
     if ( $tag eq 'getelementsbyname' ) {
-        $elements = $tmpl->getElementsByName( $name );
+        @elements = $tmpl->getElementsByName( $name );
     } elsif ( $tag eq 'getelementsbytagname' ) {
-        $elements = $tmpl->getElementsByTagName( $name );
+        @elements = $tmpl->getElementsByTagName( $name );
     } elsif ( $tag eq 'getelementsbyclassname' ) {
         if (! $template ) {
-            $elements = $tmpl->getElementsByClassName( $name );
+            @elements = $tmpl->getElementsByClassName( $name );
         } else {
             my @_t;
             my $all_tokens = __get_all_nodes( $tmpl, @_t );
             for my $t ( @$all_tokens ) {
                 if ( my $a = $t->attributes ) {
                     if ( $a->{ class } && $a->{ class } eq $name ) {
-                        push ( @$elements, $t );
+                        push ( @elements, $t );
                     }
                 }
             }
         }
     }
-    if (! $elements ) {
+    if (! @elements ) {
         return '';
     }
     if ( $args->{ setvar } || $args->{ force } ) {
-        my $tmpl = @$elements[ $index ]->ownerDocument;
         if ( defined( $index ) ) {
-            return @$elements[ $index ];
+            return $elements[ $index ];
         } else {
-            return $elements;
+            return \@elements;
         }
     }
     return '';
