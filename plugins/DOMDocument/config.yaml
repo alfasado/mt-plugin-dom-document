@@ -1,0 +1,29 @@
+id: DOMDocument
+key: domdocument
+name: DOMDocument
+author_name: Alfasado Inc.
+author_link: http://alfasado.net/
+version: 0.1
+description: MTML DOM Document.
+tags:
+    block:
+        SetRawTemplate: $domdocument::DOMDocument::Tags::_hdlr_set_raw_template
+        SetInnerHTML: $domdocument::DOMDocument::Tags::_hdlr_set_inner_html
+        InnerHTML: $domdocument::DOMDocument::Tags::_hdlr_set_inner_html
+    function:
+        SetAttribute: $domdocument::DOMDocument::Tags::_hdlr_set_attribute
+        GetElementById: $domdocument::DOMDocument::Tags::hdlr_get_element_by_id
+        GetElementsByName: $domdocument::DOMDocument::Tags::_hdlr_get_element_by
+        GetElementsByTagName: $domdocument::DOMDocument::Tags::_hdlr_get_elements_by
+        GetElementsByClassName: $domdocument::DOMDocument::Tags::_hdlr_get_element_by
+        RemoveAttribute: $domdocument::DOMDocument::Tags::_hdlr_remove_attribute
+        NodeValue: $domdocument::DOMDocument::Tags::_hdlr_node_value
+        RenderNode: $domdocument::DOMDocument::Tags::_hdlr_build_node
+        BuildNode: $domdocument::DOMDocument::Tags::_hdlr_build_node
+        GetNode: $domdocument::DOMDocument::Tags::_hdlr_build_node
+        CreateElement: $domdocument::DOMDocument::Tags::_hdlr_create_element
+        CreateTextNode: $domdocument::DOMDocument::Tags::_hdlr_create_text_node
+        AppendChild: $domdocument::DOMDocument::Tags::_hdlr_append_child
+        InsertAfter: $domdocument::DOMDocument::Tags::_hdlr_insert_after
+        InsertBefore: $domdocument::DOMDocument::Tags::_hdlr_insert_before
+        GetInnerHTML: $domdocument::DOMDocument::Tags::_hdlr_get_inner_html
