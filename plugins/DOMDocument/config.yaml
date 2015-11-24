@@ -3,7 +3,7 @@ key: domdocument
 name: DOMDocument
 author_name: Alfasado Inc.
 author_link: http://alfasado.net/
-version: 0.1
+version: 0.2
 description: This plugin provides some DOM methods in MTML.
 tags:
     block:
@@ -27,3 +27,4 @@ tags:
         InsertAfter: $domdocument::DOMDocument::Tags::_hdlr_insert_after
         InsertBefore: $domdocument::DOMDocument::Tags::_hdlr_insert_before
         GetInnerHTML: $domdocument::DOMDocument::Tags::_hdlr_get_inner_html
+        Node2MTML: $domdocument::DOMDocument::Tags::_hdlr_node_to_mtml

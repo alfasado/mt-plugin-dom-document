@@ -328,12 +328,32 @@ sub _hdlr_append_child {
         return '';
     }
     my $tmpl = $pointer->ownerDocument;
+    my $appendHTML = __node_2_mtml( $append );
+    my $pointerHTML = __node_2_mtml( $pointer );
+    my $parentNode;
+    MT->log($pointerHTML . "\n" . $appendHTML);
+    if ( $args->{ insert_before } || $args->{ insert_after } ) {
+        require MT::Template::Node;
+        $parentNode = MT::Template::Node->new( tag => 'Unless',
+        attributes => {}, template => $ctx->stash( 'template' ) );
+    }
     if ( $args->{ insert_before } ) {
+        $parentNode->appendChild( $pointer );
+        $parentNode->appendChild( $append );
+        $parentNode->innerHTML( $pointerHTML . "\n" . $appendHTML );
         $tmpl->insertBefore( $append, $pointer );
+        $pointer->[ 5 ] = $parentNode;
     } elsif ( $args->{ insert_after } ) {
+        $parentNode->appendChild( $append );
+        $parentNode->appendChild( $pointer );
+        $parentNode->innerHTML( $pointerHTML . "\n" . $appendHTML );
         $tmpl->insertAfter( $append, $pointer );
+        $pointer->[ 5 ] = $parentNode;
     } else {
         $pointer->appendChild( $append );
+        if ( $appendHTML ) {
+            $pointer->innerHTML( $pointer->innerHTML . "\n" . $appendHTML );
+        }
     }
     return '';
 }
@@ -408,6 +428,61 @@ sub _hdlr_get_inner_html {
         return '';
     }
     return $element->innerHTML();
+}
+
+sub _hdlr_node_to_mtml {
+    my ( $ctx, $args, $cond ) = @_;
+    my $node = $args->{ node } || return '';
+    my $element = $ctx->{ __stash }{ vars }{ $node };
+    if (! $element ) {
+        $element = $ctx->{ __stash }{ vars }{ lc( $node ) };
+    }
+    if (! $element ) {
+        return '';
+    }
+    if ( ( ref $element ) ne 'MT::Template::Node' ) {
+        return '';
+    }
+    if ( my $parent = $element->parentNode ) {
+        if ( ( ref $parent ) eq 'MT::Template::Node' ) {
+            return $parent->innerHTML;
+        } else {
+            return __node_2_mtml( $element );
+        }
+    }
+    return '';
+}
+
+sub __node_2_mtml {
+    my $node = shift;
+    my $innerHTML = '';
+    if ( $node->[ 0 ] && $node->[ 2 ] ) {
+        my @attr;
+        my $attributes = $node->[ 1 ];
+        if ( ( ref $attributes ) eq 'HASH' ) {
+            while ( my ( $key, $value ) = each %$attributes ) {
+                if ( ( ref $value ) eq 'ARRAY' ) {
+                    my @_attr;
+                    for my $val ( @$value ) {
+                        push ( @_attr, "\"${val}\"" );
+                    }
+                    $value = join( ',', @_attr );
+                    push ( @attr, "${key}=${value}" );
+                } else {
+                    push ( @attr, "${key}=\"${value}\"" );
+                }
+            }
+        }
+        $innerHTML = '<mt:' . $node->[ 0 ];
+        if ( @attr ) {
+            $innerHTML .= ' ';
+            $innerHTML .= join( ' ', @attr );
+        }
+        $innerHTML .= '>';
+        $innerHTML .= $node->innerHTML;
+        $innerHTML .= '</mt:' . $node->[ 0 ] . '>';
+    }
+    return $innerHTML;
 }
 
 sub __get_all_nodes {
