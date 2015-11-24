@@ -63,6 +63,10 @@ Output innerHTML of specified node\.
 
 Build specified node\.
 
+### MTNode2MTML
+
+Convert MT::Template::Node object to MTML\.
+
 ## Block tags:
 
 ### MTSetInnerHTML

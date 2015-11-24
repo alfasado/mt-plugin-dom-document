@@ -331,7 +331,6 @@ sub _hdlr_append_child {
     my $appendHTML = __node_2_mtml( $append );
     my $pointerHTML = __node_2_mtml( $pointer );
     my $parentNode;
-    MT->log($pointerHTML . "\n" . $appendHTML);
     if ( $args->{ insert_before } || $args->{ insert_after } ) {
         require MT::Template::Node;
         $parentNode = MT::Template::Node->new( tag => 'Unless',
@@ -449,6 +448,8 @@ sub _hdlr_node_to_mtml {
         } else {
             return __node_2_mtml( $element );
         }
+    } else {
+        return __node_2_mtml( $element );
     }
     return '';
 }
